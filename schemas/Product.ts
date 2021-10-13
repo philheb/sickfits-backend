@@ -1,5 +1,5 @@
 import { list } from '@keystone-next/keystone/schema';
-import { text, select } from '@keystone-next/fields';
+import { text, select, integer } from '@keystone-next/fields';
 
 export const Product = list({
   //access:
@@ -18,6 +18,12 @@ export const Product = list({
         { label: 'Unavailable', value: 'UNAVAILABLE' },
       ],
       defaultValue: 'DRAFT',
+      ui: {
+        displayMode: 'segmented-control',
+        createView: { fieldMode: 'hidden' },
+      },
     }),
+    price: integer(),
+    //TODO: Photo
   },
 });

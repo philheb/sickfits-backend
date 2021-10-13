@@ -1,12 +1,13 @@
-import "dotenv/config";
-import { createAuth } from "@keystone-next/auth";
-import { config, createSchema } from "@keystone-next/keystone/schema";
+import 'dotenv/config';
+import { createAuth } from '@keystone-next/auth';
+import { config, createSchema } from '@keystone-next/keystone/schema';
 import {
   withItemData,
   statelessSessions,
-} from "@keystone-next/keystone/session";
-import { User } from "./schemas/User";
-import { Product } from "./schemas/Product";
+} from '@keystone-next/keystone/session';
+import { User } from './schemas/User';
+import { Product } from './schemas/Product';
+import { ProductImage } from './schemas/ProductImage';
 
 const databaseURL = process.env.DATABASE_URL;
 
@@ -16,11 +17,11 @@ const sessionConfig = {
 };
 
 const { withAuth } = createAuth({
-  listKey: "User",
-  identityField: "email",
-  secretField: "password",
+  listKey: 'User',
+  identityField: 'email',
+  secretField: 'password',
   initFirstItem: {
-    fields: ["name", "email", "password"],
+    fields: ['name', 'email', 'password'],
     //TODO: Add in initial roles here
   },
 });
@@ -34,13 +35,14 @@ export default withAuth(
       },
     },
     db: {
-      adapter: "mongoose",
+      adapter: 'mongoose',
       url: databaseURL,
       //TODO: Add data seeding here
     },
     lists: createSchema({
       User,
       Product,
+      ProductImage,
     }),
     ui: {
       //TODO: change this for roles
