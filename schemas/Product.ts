@@ -32,7 +32,7 @@ export const Product = list({
         createView: { fieldMode: 'hidden' },
       },
     }),
-    price: integer(),
+    price: integer({ isRequired: true }),
     //TODO: Photo
   },
 });
