@@ -26,7 +26,6 @@ function makeANiceEmail(text: string): string {
 }
 
 export async function sendPasswordResetEmail(resetToken: string, to: string) {
-  //email the user a token
   const info = await transport.sendMail({
     to,
     from: 'test@example.com',
