@@ -4,6 +4,7 @@ import {
   CartItemCreateInput,
   OrderCreateInput,
 } from '../.keystone/schema-types';
+import stripeConfig from '../lib/stripe';
 
 interface Arguments {
   token: string;
@@ -18,6 +19,8 @@ async function checkout(
   if (!userId) {
     throw new Error('No logged in user');
   }
+
+  // Get the cart total amount
   const user = await context.lists.User.findOne({
     where: { id: userId },
     resolveFields: `
@@ -50,7 +53,20 @@ async function checkout(
     },
     0
   );
-  console.log(amount);
+
+  // Create the Stripe charge
+  const charge = await stripeConfig.paymentIntents
+    .create({
+      amount,
+      currency: 'USD',
+      confirm: true,
+      payment_method: token,
+    })
+    .catch((err) => {
+      console.log(err);
+      throw new Error(err.message);
+    });
+  console.log(charge);
 }
 
 export default checkout;
